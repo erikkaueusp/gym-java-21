@@ -2,7 +2,8 @@ package com.gymapp.gymapp.service.exercicio;
 
 import com.gymapp.gymapp.domain.Exercicio;
 import com.gymapp.gymapp.mappers.ExercicioMapper;
-import com.gymapp.gymapp.model.ExercicioDto;
+import com.gymapp.gymapp.model.inputs.ExercicioDtoInput;
+import com.gymapp.gymapp.model.outputs.ExercicioDtoOutput;
 import com.gymapp.gymapp.repository.ExercicioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +22,18 @@ public class ExercicioService {
     @Autowired
     private ExercicioMapper mapper;
 
-    public ExercicioDto findById(Long id) {
+    public ExercicioDtoOutput findById(Long id) {
         Optional<Exercicio> exercicio = repository.findById(id);
         return mapper.toDto(exercicio.orElseThrow(EntityNotFoundException::new));
     }
 
-    public Page<ExercicioDto> findAll(Pageable pageable) {
+    public Page<ExercicioDtoOutput> findAll(Pageable pageable) {
         Page<Exercicio> exercicios = repository.findAll(pageable);
         return exercicios.map(mapper::toDto);
     }
 
-    public Long save(ExercicioDto exercicioDto) {
-        Exercicio save = repository.save(mapper.toEntity(exercicioDto));
+    public Long save(ExercicioDtoInput input) {
+        Exercicio save = repository.save(mapper.toEntity(input));
         return save.getId();
     }
 }

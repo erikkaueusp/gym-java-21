@@ -1,12 +1,13 @@
 package com.gymapp.gymapp.mappers;
 
 import com.gymapp.gymapp.domain.Aluno;
-import com.gymapp.gymapp.model.AlunoDto;
+import com.gymapp.gymapp.model.inputs.AlunotDtoInput;
+import com.gymapp.gymapp.model.outputs.AlunoDtoOutput;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface AlunoMapper {
-    AlunoDto toDto(Aluno aluno);
+    AlunoDtoOutput toDto(Aluno aluno);
 
-    Aluno toEntity(AlunoDto alunoDto);
+    Aluno toEntity(AlunotDtoInput alunoDto);
 }

@@ -1,6 +1,7 @@
 package com.gymapp.gymapp.controller;
 
-import com.gymapp.gymapp.model.AlunoDto;
+import com.gymapp.gymapp.model.inputs.AlunotDtoInput;
+import com.gymapp.gymapp.model.outputs.AlunoDtoOutput;
 import com.gymapp.gymapp.service.aluno.AlunoService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("v1/api/aluno")
@@ -20,7 +26,7 @@ public class AlunoController {
     private AlunoService service;
 
     @GetMapping
-    public Page<AlunoDto> getAlunos(
+    public Page<AlunoDtoOutput> getAlunos(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
             @RequestParam(name = "sort", defaultValue = "id") String sort
@@ -30,13 +36,24 @@ public class AlunoController {
     }
 
     @GetMapping("/{id}")
-    public AlunoDto getAluno(@PathVariable Long id) {
+    public AlunoDtoOutput getAluno(@PathVariable Long id) {
         return service.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Long> cadastra(@RequestBody AlunoDto alunoDto) {
-        var id = service.save(alunoDto);
+    public ResponseEntity<Long> cadastra(@RequestBody AlunotDtoInput input) throws IOException {
+        var id = service.save(input);
         return ResponseEntity.ok(id);
     }
+
+    @PostMapping(value = "/importar", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<String> importarAlunos(@RequestParam(value = "file") MultipartFile file) {
+        try {
+            this.service.saveLote(file);
+            return ResponseEntity.ok("Alunos importados com sucesso!");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao importar arquivo");
+        }
+    }
+
 }

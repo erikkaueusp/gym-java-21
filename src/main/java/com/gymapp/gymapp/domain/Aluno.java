@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,7 +24,7 @@ public class Aluno {
 
     private String telefone;
 
-    private String path;
+    private String img;
 
     private LocalDateTime dataCriacao = LocalDateTime.now();
 }
