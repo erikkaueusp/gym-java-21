@@ -3,8 +3,8 @@
     <envs>
       <env name="SPRING_PROFILES_ACTIVE" value="postgres,auth" />
       <env name="SPRING_DATASOURCE_URL" value="jdbc:postgresql://localhost:5432/gymapp" />
-      <env name="SPRING_DATASOURCE_USERNAME" value="teste" />
-      <env name="SPRING_DATASOURCE_PASSWORD" value="teste" />
+      <env name="SPRING_DATASOURCE_USERNAME" value="postgres" />
+      <env name="SPRING_DATASOURCE_PASSWORD" value="postgres" />
       <env name="SECRET_JWT" value="1" />
       <env name="VARIAVEL_JWT_EXPIRATION" value="8100000" />
     </envs>
