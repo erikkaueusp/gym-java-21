@@ -1,6 +1,7 @@
 package com.gymapp.gymapp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,26 +25,34 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
+    @Autowired(required = false)
     private AutenticacaoViaTokenFilter autenticacaoViaTokenFilter;
 
     @Bean
+    @ConditionalOnProperty(name = "app.auth.enabled", havingValue = "true", matchIfMissing = true)
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
+    // Bean para AuthenticationManager quando o auth está desligado (false)
     @Bean
-    public PasswordEncoder passwordEncoder() throws Exception {
-        return new BCryptPasswordEncoder();
+    @ConditionalOnProperty(name = "app.auth.enabled", havingValue = "false")
+    public AuthenticationManager noAuthAuthenticationManager() {
+        return authentication -> {
+            authentication.setAuthenticated(true);
+            return authentication;
+        };
     }
 
+    // Chain de segurança para quando o auth está ligado (true ou ausente)
     @Bean
+    @ConditionalOnProperty(name = "app.auth.enabled", havingValue = "true", matchIfMissing = true)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/auth").permitAll();
-                    req.requestMatchers("/v3/api-docs/**","/swagger-ui/**","/swagger-ui.html").permitAll();
+                    req.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll();
                     req.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     req.anyRequest().authenticated();
                 })
@@ -51,8 +60,23 @@ public class SecurityConfig {
                 .build();
     }
 
+    // Chain de segurança alternativa para quando o auth está desligado (false)
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    @ConditionalOnProperty(name = "app.auth.enabled", havingValue = "false")
+    public SecurityFilterChain noAuthFilterChain(HttpSecurity http) throws Exception {
+        return http.csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
+                .authorizeHttpRequests(req -> req.anyRequest().permitAll())
+                .build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));
@@ -62,7 +86,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
 }
-
