@@ -14,10 +14,17 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+# Ignorar tudo que estiver na pasta .idea
+.idea/*
+# Mas incluir a pasta runConfigurations e todo o seu conteúdo
+!.idea/runConfigurations/
+!.idea/runConfigurations/**
+
+# Ignorar arquivos específicos
 *.iws
 *.iml
 *.ipr
+
 
 ### NetBeans ###
 /nbproject/private/
