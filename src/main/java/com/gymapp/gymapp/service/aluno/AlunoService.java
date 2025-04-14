@@ -43,7 +43,7 @@ public class AlunoService {
 
     public Long save(AlunotDtoInput input) throws IOException {
         Aluno aluno = mapper.toEntity(input);
-        if (!input.img().isEmpty()) {
+        if (input.img() != null && !input.img().isEmpty()) {
             String path = fileUtils.saveImage(input.img());
             aluno.setImg(path);
         }
