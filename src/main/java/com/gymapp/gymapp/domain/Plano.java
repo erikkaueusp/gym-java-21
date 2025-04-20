@@ -1,11 +1,12 @@
 package com.gymapp.gymapp.domain;
 
+import com.gymapp.gymapp.enumx.Periodicidade;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -16,12 +17,12 @@ public class Plano {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Aluno aluno;
+    private String nome;
 
-    private BigDecimal valor;
+    @Enumerated(EnumType.STRING)
+    private Periodicidade periodicidade;
 
-    private LocalDate vencimento;
+    private BigDecimal preco;
 
-    private boolean isExpirado;
+    private LocalDateTime dataCriacao = LocalDateTime.now();
 }

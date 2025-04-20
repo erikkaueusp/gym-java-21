@@ -10,7 +10,6 @@
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.gymapp.gymapp.GymappApplication" />
     <module name="gymapp" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.gymapp.gymapp.*" />

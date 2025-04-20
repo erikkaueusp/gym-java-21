@@ -1,8 +1,9 @@
 package com.gymapp.gymapp.model.inputs;
 
+import com.gymapp.gymapp.enumx.Periodicidade;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
-public record PlanoDtoInput(Long alunoIdId, BigDecimal valor, LocalDate vencimento) implements Serializable {
+public record PlanoDtoInput(String nome, Periodicidade periodicidade, BigDecimal preco) implements Serializable {
 }
