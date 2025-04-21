@@ -12,6 +12,31 @@ Atualmente, existem dois conjuntos principais de perfis:
 
 ---
 
+
+---
+
+## Versionamento de Banco com Liquibase
+
+Este projeto utiliza o **[Liquibase](https://www.liquibase.org/)** para controle de versionamento do banco de dados. Todas as alterações de estrutura (schemas, constraints, dados iniciais, etc.) são rastreadas por meio de arquivos `.yaml`, garantindo que o estado do banco esteja sempre em conformidade com o código-fonte.
+
+> ⚠️ O Liquibase é executado automaticamente durante o `startup` da aplicação, aplicando os `changeSets` pendentes ao banco configurado.
+
+### 📦 Estrutura dos arquivos
+
+Os arquivos estão organizados da seguinte forma:
+
+
+Cada entidade possui seu próprio arquivo de changelog e todos são incluídos no `db.changelog-master.yaml` via diretiva `include`.
+
+---
+
+### 🔁 Gerando changelogs com base nas entidades JPA
+
+Após alterar ou adicionar novas entidades, você pode gerar automaticamente um novo changelog com o seguinte comando:
+
+```bash
+mvn liquibase:diff
+```
 ## Perfis de Execução
 
 ### 1. GymappApplication-Postgres-Auth
@@ -42,4 +67,6 @@ Exemplo de configuração no `application.properties`:
 
 ```properties
 # Configuração do DataSource (PostgreSQL por padrão)
-spring.datasource.url=${SPRING_DATASOURCE_
+spring.datasource.url=${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/gymapp}
+spring.datasource.username=${SPRING_DATASOURCE_USERNAME:postgres}
+spring.datasource.password=${SPRING_DATASOURCE_PASSWORD:postgres}

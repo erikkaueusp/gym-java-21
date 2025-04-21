@@ -1,0 +1,76 @@
+databaseChangeLog:
+- changeSet:
+    id: 1745245539752-2
+    author: eriksilva (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: assinatura_pkey
+            name: id
+            startWith: 6
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: ativa
+            type: BOOLEAN
+        - column:
+            name: data_fim
+            type: date
+        - column:
+            name: data_inicio
+            type: date
+        - column:
+            constraints:
+              nullable: false
+            name: aluno_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: plano_id
+            type: BIGINT
+        tableName: assinatura
+- changeSet:
+    id: 1745245539752-7
+    author: eriksilva (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: aluno_id, ativa
+        constraintName: ukha27xhphgjb8lsuukypin1gd7
+        tableName: assinatura
+- changeSet:
+    id: 1745245539752-13
+    author: eriksilva (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: aluno_id
+        baseTableName: assinatura
+        constraintName: fk2yy04jumwaba2qcj53ify1uf6
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: aluno
+        validate: true
+- changeSet:
+    id: 1745245539752-14
+    author: eriksilva (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: plano_id
+        baseTableName: assinatura
+        constraintName: fk38muhsb5hbrby9i157yfxr8qa
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: plano
+        validate: true

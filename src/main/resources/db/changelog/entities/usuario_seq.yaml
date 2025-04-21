@@ -1,0 +1,14 @@
+databaseChangeLog:
+- changeSet:
+    id: 1745245539752-9
+    author: eriksilva (generated)
+    changes:
+    - createSequence:
+        cacheSize: 1
+        cycle: false
+        dataType: bigint
+        incrementBy: 50
+        maxValue: 9223372036854775807
+        minValue: 1
+        sequenceName: usuario_seq
+        startValue: 1

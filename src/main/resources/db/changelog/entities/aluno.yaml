@@ -1,0 +1,43 @@
+databaseChangeLog:
+- changeSet:
+    id: 1745245539752-1
+    author: eriksilva (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: aluno_pkey
+            name: id
+            startWith: 6
+            type: BIGINT
+        - column:
+            name: data_criacao
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: email
+            type: VARCHAR(255)
+        - column:
+            name: endereco
+            type: VARCHAR(255)
+        - column:
+            name: img
+            type: VARCHAR(255)
+        - column:
+            name: nome
+            type: VARCHAR(255)
+        - column:
+            name: telefone
+            type: VARCHAR(255)
+        tableName: aluno
+- changeSet:
+    id: 1745245539752-6
+    author: eriksilva (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: nome
+        constraintName: uk_5bm6vwkwqo7gnnhwqd8ged3ed
+        tableName: aluno

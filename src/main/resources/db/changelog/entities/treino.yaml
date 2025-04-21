@@ -1,0 +1,58 @@
+databaseChangeLog:
+- changeSet:
+    id: 1745245539752-5
+    author: eriksilva (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: treino_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: duracao
+            type: VARCHAR(255)
+        - column:
+            name: repeticao
+            type: BIGINT
+        - column:
+            name: aluno_id
+            type: BIGINT
+        - column:
+            name: exercicio_id
+            type: BIGINT
+        tableName: treino
+- changeSet:
+    id: 1745245539752-15
+    author: eriksilva (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: exercicio_id
+        baseTableName: treino
+        constraintName: fk8tseqb2ikw2mcjb19vqfsvn14
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: exercicio
+        validate: true
+- changeSet:
+    id: 1745245539752-17
+    author: eriksilva (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: aluno_id
+        baseTableName: treino
+        constraintName: fkqvk67bdiyx4bio2as54aahdrt
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: aluno
+        validate: true

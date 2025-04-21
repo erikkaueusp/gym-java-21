@@ -1,0 +1,21 @@
+databaseChangeLog:
+- changeSet:
+    id: 1745245539752-11
+    author: eriksilva (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: usuario_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: senha
+            type: VARCHAR(255)
+        - column:
+            name: username
+            type: VARCHAR(255)
+        tableName: usuario

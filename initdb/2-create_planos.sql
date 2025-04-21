@@ -1,6 +1,0 @@
---INSERT INTO plano (nome, periodicidade, preco, data_criacao)
---VALUES
---  ('Aula Avulsa', 'DAILY',   10.00, now()),
---  ('Mensal',      'MONTHLY', 70.00, now()),
---  ('Anual',       'ANNUAL',  600.00, now());
-

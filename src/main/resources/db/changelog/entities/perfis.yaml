@@ -1,0 +1,18 @@
+databaseChangeLog:
+- changeSet:
+    id: 1745245539752-10
+    author: eriksilva (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: perfis_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: nome
+            type: VARCHAR(255)
+        tableName: perfis

@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/entities/aluno.yaml
+  - include:
+      file: db/changelog/entities/plano.yaml
+  - include:
+      file: db/changelog/entities/exercicio.yaml
+  - include:
+      file: db/changelog/entities/perfis.yaml
+  - include:
+      file: db/changelog/entities/usuario.yaml
+  - include:
+      file: db/changelog/entities/usuario_perfis.yaml
+  - include:
+      file: db/changelog/entities/treino.yaml
+  - include:
+      file: db/changelog/entities/assinatura.yaml
+  - include:
+      file: db/changelog/entities/perfis_seq.yaml
+  - include:
+      file: db/changelog/entities/usuario_seq.yaml
+  - include:
+      file: db/changelog/scripts/plano-data.yaml

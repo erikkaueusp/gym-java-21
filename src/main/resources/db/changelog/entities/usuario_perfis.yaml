@@ -1,0 +1,48 @@
+databaseChangeLog:
+- changeSet:
+    id: 1745245539752-12
+    author: eriksilva (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: usuario_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: perfis_id
+            type: BIGINT
+        tableName: usuario_perfis
+- changeSet:
+    id: 1745245539752-16
+    author: eriksilva (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: perfis_id
+        baseTableName: usuario_perfis
+        constraintName: fklpowasp9ros8i5h4v5ne0017q
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: perfis
+        validate: true
+- changeSet:
+    id: 1745245539752-18
+    author: eriksilva (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: usuario_id
+        baseTableName: usuario_perfis
+        constraintName: fks91tgiyagbilt959wbufiphgc
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: id
+        referencedTableName: usuario
+        validate: true

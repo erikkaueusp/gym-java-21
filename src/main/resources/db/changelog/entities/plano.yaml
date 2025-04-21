@@ -1,0 +1,29 @@
+databaseChangeLog:
+- changeSet:
+    id: 1745245539752-4
+    author: eriksilva (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: plano_pkey
+            name: id
+            startWith: 4
+            type: BIGINT
+        - column:
+            name: data_criacao
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: nome
+            type: VARCHAR(255)
+        - column:
+            name: periodicidade
+            type: VARCHAR(255)
+        - column:
+            name: preco
+            type: numeric(38, 2)
+        tableName: plano
