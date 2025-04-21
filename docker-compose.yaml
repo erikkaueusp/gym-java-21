@@ -11,5 +11,20 @@ services:
       - ./initdb:/docker-entrypoint-initdb.d
       - pgdata:/var/lib/postgresql/data
 
+  gymapp:
+    image: gymapp:latest  # nome da imagem que você gerou com `docker build -t gymapp .`
+    container_name: gymapp
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/gymapp
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SECRET_JWT: supersegredosecreto123
+      VARIAVEL_JWT_EXPIRATION: 8100000
+    ports:
+      - "8080:8080"
+    restart: always
+
 volumes:
   pgdata:
