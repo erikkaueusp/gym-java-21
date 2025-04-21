@@ -12,7 +12,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   gymapp:
-    image: gymapp:latest  # nome da imagem que você gerou com `docker build -t gymapp .`
+    image: gymapp:latest
     container_name: gymapp
     depends_on:
       - postgres
