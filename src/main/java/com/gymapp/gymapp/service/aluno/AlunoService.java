@@ -4,6 +4,7 @@ import com.gymapp.gymapp.domain.Aluno;
 import com.gymapp.gymapp.mappers.AlunoMapper;
 import com.gymapp.gymapp.model.inputs.AlunotDtoInput;
 import com.gymapp.gymapp.model.outputs.AlunoDtoOutput;
+import com.gymapp.gymapp.model.outputs.AutocompleteOutput;
 import com.gymapp.gymapp.repository.AlunoRepository;
 import com.gymapp.gymapp.utils.FileUtils;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,6 +23,7 @@ public class AlunoService {
 
     @Autowired
     private AlunoServiceLoteAction alunoServiceLoteAction;
+
     @Autowired
     private AlunoRepository repository;
 
@@ -60,5 +62,9 @@ public class AlunoService {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    public Page<AutocompleteOutput> autocomplete(String nome, Pageable pageable) {
+        return repository.findByNomeStartingWithIgnoreCase(nome, pageable);
     }
 }

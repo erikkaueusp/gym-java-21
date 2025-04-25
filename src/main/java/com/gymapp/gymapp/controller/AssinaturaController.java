@@ -35,8 +35,6 @@ public class AssinaturaController {
         return service.calcularTotaisFinanceiros(inicio, fim);
     }
 
-
-
     /** Expira manualmente todas as assinaturas vencidas (útil em dev). */
     @PostMapping("/expirar")
     @ResponseStatus(HttpStatus.NO_CONTENT)

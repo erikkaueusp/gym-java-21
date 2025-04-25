@@ -2,6 +2,7 @@ package com.gymapp.gymapp.controller;
 
 import com.gymapp.gymapp.model.inputs.AlunotDtoInput;
 import com.gymapp.gymapp.model.outputs.AlunoDtoOutput;
+import com.gymapp.gymapp.model.outputs.AutocompleteOutput;
 import com.gymapp.gymapp.service.aluno.AlunoService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,16 @@ public class AlunoController {
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao importar arquivo");
         }
+    }
+
+    @GetMapping("/autocomplete")
+    public Page<AutocompleteOutput> autocomplete(
+            @RequestParam String nome,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("nome").ascending());
+        return service.autocomplete(nome, pageable);
     }
 
 }
