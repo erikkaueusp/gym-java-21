@@ -2,6 +2,7 @@ package com.gymapp.gymapp.controller;
 
 import com.gymapp.gymapp.domain.Assinatura;
 import com.gymapp.gymapp.model.inputs.AssinaturaFilter;
+import com.gymapp.gymapp.model.outputs.AssinaturaVencimentoOutput;
 import com.gymapp.gymapp.model.outputs.TotaisFinanceirosOutput;
 import com.gymapp.gymapp.service.assinatura.AssinaturaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -29,6 +31,7 @@ public class AssinaturaController {
     }
 
     @GetMapping("/totais")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public TotaisFinanceirosOutput totais(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim
@@ -49,6 +52,14 @@ public class AssinaturaController {
             @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
 
         return service.listarPorFiltro(filter, pageable);
+    }
+
+    @GetMapping("/proximos-vencimentos")
+    public Page<AssinaturaVencimentoOutput> listarProximosVencimentos(
+            @RequestParam(defaultValue = "1") int dias,
+            Pageable pageable
+    ) {
+        return service.listarProximosVencimentos(pageable, dias);
     }
 
     /* ---------- DTOs internos ---------- */

@@ -2,6 +2,7 @@ package com.gymapp.gymapp.repository;
 
 import com.gymapp.gymapp.domain.Assinatura;
 import com.gymapp.gymapp.enumx.Periodicidade;
+import com.gymapp.gymapp.model.outputs.AssinaturaVencimentoOutput;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,6 +36,30 @@ public interface AssinaturaRepository extends JpaRepository<Assinatura, Long>, J
                  AND :ref BETWEEN s.dataInicio AND s.dataFim
             """)
     Page<Assinatura> findAtivasEm(@Param("ref") LocalDate ref, Pageable pageable);
+
+    @Query("""
+        SELECT new com.gymapp.gymapp.model.outputs.AssinaturaVencimentoOutput(
+            al.nome,
+            p.nome,
+            a.dataFim,
+            0L
+        )
+        FROM Assinatura a
+        JOIN a.aluno al
+        JOIN a.plano p
+        WHERE a.ativa = true
+          AND a.dataFim BETWEEN :inicio AND :fim
+        ORDER BY a.dataFim ASC
+        """)
+    Page<AssinaturaVencimentoOutput> buscarProximosVencimentosAtivos(
+            Pageable pageable,
+            @Param("inicio") LocalDate inicio,
+            @Param("fim") LocalDate fim
+    );
+
+
+
+
 
 
 }

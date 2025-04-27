@@ -5,6 +5,7 @@ import com.gymapp.gymapp.domain.Assinatura;
 import com.gymapp.gymapp.domain.Plano;
 import com.gymapp.gymapp.enumx.Periodicidade;
 import com.gymapp.gymapp.model.inputs.AssinaturaFilter;
+import com.gymapp.gymapp.model.outputs.AssinaturaVencimentoOutput;
 import com.gymapp.gymapp.model.outputs.TotaisFinanceirosOutput;
 import com.gymapp.gymapp.repository.AlunoRepository;
 import com.gymapp.gymapp.repository.AssinaturaRepository;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -76,5 +78,19 @@ public class AssinaturaService {
     public Page<Assinatura> listarPorFiltro(AssinaturaFilter filter, Pageable pageable) {
         return repository.findAll(comFiltro(filter), pageable);
     }
+
+    public Page<AssinaturaVencimentoOutput> listarProximosVencimentos(Pageable pageable, int dias) {
+        LocalDate hoje = LocalDate.now();
+        LocalDate limite = hoje.plusDays(dias);
+
+        Page<AssinaturaVencimentoOutput> page = repository.buscarProximosVencimentosAtivos(pageable, hoje, limite);
+        return page.map(dto -> new AssinaturaVencimentoOutput(
+                dto.nomeAluno(),
+                dto.plano(),
+                dto.dataFim(),
+                ChronoUnit.DAYS.between(hoje, dto.dataFim())
+        ));
+    }
+
 
 }
