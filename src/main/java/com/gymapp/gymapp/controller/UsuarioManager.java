@@ -2,6 +2,7 @@ package com.gymapp.gymapp.controller;
 
 import com.gymapp.gymapp.domain.Perfis;
 import com.gymapp.gymapp.domain.Usuario;
+import com.gymapp.gymapp.exception.BusinessException;
 import com.gymapp.gymapp.model.inputs.UsuarioDtoInput;
 import com.gymapp.gymapp.model.outputs.UsuarioDtoOutput;
 import com.gymapp.gymapp.repository.PerfisRepository;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
+@PreAuthorize("hasRole('ADMINISTRADOR')")
 public class UsuarioManager {
 
     @Autowired
@@ -29,7 +32,6 @@ public class UsuarioManager {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public UsuarioDtoOutput criarUsuario(@RequestBody @Valid UsuarioDtoInput form) {
         Usuario usuario = new Usuario();
         usuario.setUsername(form.username());
@@ -42,10 +44,48 @@ public class UsuarioManager {
 
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
         return new UsuarioDtoOutput(
+                usuarioSalvo.getId(),
                 usuarioSalvo.getUsername(),
                 usuarioSalvo.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .toList()
         );
     }
+
+    @GetMapping
+    public List<UsuarioDtoOutput> listarUsuarios() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+
+        return usuarios.stream()
+                .filter(usuario -> usuario.getAuthorities().stream()
+                        .anyMatch(authority -> authority.getAuthority().equals("ROLE_FUNCIONARIO"))
+                )
+                .map(usuario -> new UsuarioDtoOutput(
+                        usuario.getId(),
+                        usuario.getUsername(),
+                        usuario.getAuthorities().stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .toList()
+                ))
+                .toList();
+    }
+
+    @DeleteMapping("/{id}")
+    public void excluirUsuario(@PathVariable Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
+
+        boolean isAdmin = usuario.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMINISTRADOR"));
+
+        if (isAdmin) {
+            throw new BusinessException("Usuário ADMINISTRADOR não pode ser excluído");
+        }
+
+        usuarioRepository.delete(usuario);
+    }
+
+
+
+
 }
