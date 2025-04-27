@@ -1,7 +1,6 @@
 package com.gymapp.gymapp.repository;
 
 import com.gymapp.gymapp.domain.Assinatura;
-import com.gymapp.gymapp.domain.Plano;
 import com.gymapp.gymapp.enumx.Periodicidade;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface AssinaturaRepository extends JpaRepository<Assinatura, Long>, JpaSpecificationExecutor<Plano> {
+public interface AssinaturaRepository extends JpaRepository<Assinatura, Long>, JpaSpecificationExecutor<Assinatura> {
 
 
     @Query("""

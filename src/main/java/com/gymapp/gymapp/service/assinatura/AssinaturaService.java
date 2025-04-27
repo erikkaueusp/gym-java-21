@@ -4,6 +4,7 @@ import com.gymapp.gymapp.domain.Aluno;
 import com.gymapp.gymapp.domain.Assinatura;
 import com.gymapp.gymapp.domain.Plano;
 import com.gymapp.gymapp.enumx.Periodicidade;
+import com.gymapp.gymapp.model.inputs.AssinaturaFilter;
 import com.gymapp.gymapp.model.outputs.TotaisFinanceirosOutput;
 import com.gymapp.gymapp.repository.AlunoRepository;
 import com.gymapp.gymapp.repository.AssinaturaRepository;
@@ -20,6 +21,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static com.gymapp.gymapp.specification.AssinaturaSpecifications.comFiltro;
 
 @Service
 public class AssinaturaService {
@@ -70,9 +73,8 @@ public class AssinaturaService {
         return new TotaisFinanceirosOutput(inicio, fim, totais, totalGeral);
     }
 
-    public Page<Assinatura> listarAtivas(LocalDate dataRef, Pageable pageable) {
-        LocalDate ref = dataRef != null ? dataRef : LocalDate.now();
-        return repository.findAtivasEm(ref, pageable);
+    public Page<Assinatura> listarPorFiltro(AssinaturaFilter filter, Pageable pageable) {
+        return repository.findAll(comFiltro(filter), pageable);
     }
 
 }

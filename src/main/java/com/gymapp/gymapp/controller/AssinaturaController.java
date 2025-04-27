@@ -1,6 +1,7 @@
 package com.gymapp.gymapp.controller;
 
 import com.gymapp.gymapp.domain.Assinatura;
+import com.gymapp.gymapp.model.inputs.AssinaturaFilter;
 import com.gymapp.gymapp.model.outputs.TotaisFinanceirosOutput;
 import com.gymapp.gymapp.service.assinatura.AssinaturaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +43,12 @@ public class AssinaturaController {
         service.expirarAssinaturas();
     }
 
-    @GetMapping("/ativas")
-    public Page<Assinatura> ativas(
-            @RequestParam(required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            LocalDate data,
-            @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
-            Pageable pageable) {
+    @GetMapping("/filter")
+    public Page<Assinatura> filtrar(
+            @ModelAttribute AssinaturaFilter filter,
+            @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
 
-        return service.listarAtivas(data, pageable);
+        return service.listarPorFiltro(filter, pageable);
     }
 
     /* ---------- DTOs internos ---------- */
