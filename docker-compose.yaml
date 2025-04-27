@@ -22,8 +22,10 @@ services:
       SPRING_DATASOURCE_PASSWORD: postgres
       SECRET_JWT: supersegredosecreto123
       VARIAVEL_JWT_EXPIRATION: 8100000
+      DEBUG: "true"
     ports:
       - "8080:8080"
+      - "5000:5000"
     restart: always
 
 volumes:
