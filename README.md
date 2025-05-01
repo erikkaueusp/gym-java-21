@@ -21,21 +21,34 @@ Este projeto utiliza o **[Liquibase](https://www.liquibase.org/)** para controle
 
 > ⚠️ O Liquibase é executado automaticamente durante o `startup` da aplicação, aplicando os `changeSets` pendentes ao banco configurado.
 
-### 📦 Estrutura dos arquivos
+## 🧪 Classe `SchemaDiffTest` — Validação e Geração de Diff para o Liquibase
 
-Os arquivos estão organizados da seguinte forma:
+### 📌 O que é?
 
-
-Cada entidade possui seu próprio arquivo de changelog e todos são incluídos no `db.changelog-master.yaml` via diretiva `include`.
+A classe `SchemaDiffTest` foi criada para validar automaticamente se o changelog do Liquibase está em conformidade com o modelo de entidades JPA da aplicação.  
+Além disso, ela permite **gerar um diff em YAML** com as alterações que precisam ser adicionadas ao changelog (`.yaml`) do Liquibase.
 
 ---
 
-### 🔁 Gerando changelogs com base nas entidades JPA
+### 🛠 Como funciona
 
-Após alterar ou adicionar novas entidades, você pode gerar automaticamente um novo changelog com o seguinte comando:
+1. Cria dois schemas temporários em um banco **H2 em memória**:
+  - `hibernate_<UUID>`: carregado dinamicamente com base nas entidades JPA (via Hibernate)
+  - `liquibase_<UUID>`: atualizado com os scripts existentes no arquivo `db.changelog-master.yaml`
 
-```bash
-mvn liquibase:diff
+2. Compara os dois schemas usando o mecanismo de diff do **Liquibase**
+
+
+3. Se encontrar diferenças:
+  - Gera o diff no console no formato YAML
+  - **Faz o teste falhar**, informando que o changelog precisa ser atualizado
+
+---
+
+### 📂 Localização esperada do changelog
+
+```text
+src/main/resources/db/changelog/db.changelog-master.yaml
 ```
 ## Perfis de Execução
 

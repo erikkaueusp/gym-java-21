@@ -92,11 +92,6 @@
 			<version>4.31.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.liquibase.ext</groupId>
-			<artifactId>liquibase-hibernate6</artifactId>
-			<version>4.31.1</version>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.17.0</version>
@@ -129,27 +124,6 @@
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.liquibase</groupId>
-				<artifactId>liquibase-maven-plugin</artifactId>
-				<version>4.31.1</version>
-				<configuration>
-					<changeLogFile>${project.basedir}/src/main/resources/db/changelog/db-changelog-${maven.build.timestamp}.yaml</changeLogFile>
-					<outputChangeLogFile>${project.basedir}/src/main/resources/db/changelog/output-${maven.build.timestamp}.yaml</outputChangeLogFile>
-					<url>jdbc:postgresql://172.25.230.87:5432/gymapp</url> <!-- Aqui entra o IP do seu WSL -->
-					<driver>org.postgresql.Driver</driver>
-					<username>postgres</username>
-					<password>postgres</password>
-					<referenceUrl>hibernate:spring:com.gymapp.gymapp?dialect=org.hibernate.dialect.PostgreSQLDialect</referenceUrl>
-					<referenceDriver>liquibase.ext.hibernate.database.connection.HibernateDriver</referenceDriver>
-					<verbose>true</verbose>
-					<logging>debug</logging>
-				</configuration>
-			</plugin>
-
-
-
 		</plugins>
 	</build>
 

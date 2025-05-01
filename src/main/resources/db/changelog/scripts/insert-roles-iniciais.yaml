@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-roles-iniciais
+      author: erik
+      changes:
+        - sql:
+            splitStatements: true
+            stripComments: true
+            sql: |
+              INSERT INTO perfis (id, nome)
+              VALUES
+                (1, 'ROLE_ADMINISTRADOR'),
+                (2, 'ROLE_FUNCIONARIO');
