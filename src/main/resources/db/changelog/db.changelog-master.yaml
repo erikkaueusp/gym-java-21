@@ -23,3 +23,7 @@ databaseChangeLog:
       file: db/changelog/scripts/plano-data.yaml
   - include:
       file: db/changelog/scripts/insert-roles-iniciais.yaml
+  - include:
+      file: db/changelog/entities/aluno-update.yaml
+  - include:
+      file: db/changelog/scripts/insert-roles-middleware.yaml

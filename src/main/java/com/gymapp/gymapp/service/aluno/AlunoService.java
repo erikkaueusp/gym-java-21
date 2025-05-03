@@ -67,4 +67,10 @@ public class AlunoService {
     public Page<AutocompleteOutput> autocomplete(String nome, Pageable pageable) {
         return repository.findByNomeStartingWithIgnoreCase(nome, pageable);
     }
+
+    public void registraBiometriaAlunoById(Long idAluno) {
+        Aluno aluno = repository.findById(idAluno).orElseThrow(EntityNotFoundException::new);
+        aluno.setBiometriaCadastrada(true);
+        repository.save(aluno);
+    }
 }

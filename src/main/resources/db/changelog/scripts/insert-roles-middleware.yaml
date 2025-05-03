@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-roles-middleware
+      author: erik
+      changes:
+        - sql:
+            splitStatements: true
+            stripComments: true
+            sql: |
+              INSERT INTO perfis (id, nome)
+              VALUES
+                (3, 'ROLE_MIDDLEWARE');

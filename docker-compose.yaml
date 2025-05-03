@@ -10,6 +10,8 @@ services:
     volumes:
       - ./initdb:/docker-entrypoint-initdb.d
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - gym-network
 
   gymapp:
     image: gymapp:latest
@@ -27,6 +29,12 @@ services:
       - "8080:8080"
       - "5000:5000"
     restart: always
+    networks:
+      - gym-network
 
 volumes:
   pgdata:
+
+networks:
+  gym-network:
+    driver: bridge

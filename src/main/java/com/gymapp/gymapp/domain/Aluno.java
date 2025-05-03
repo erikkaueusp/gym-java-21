@@ -26,5 +26,8 @@ public class Aluno {
 
     private String img;
 
+    @Column(nullable = false)
+    private boolean biometriaCadastrada = false;
+
     private LocalDateTime dataCriacao = LocalDateTime.now();
 }

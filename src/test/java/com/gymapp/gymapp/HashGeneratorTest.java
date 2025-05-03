@@ -11,12 +11,12 @@ public class HashGeneratorTest {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
         // Senha a ser hasheada
-        String senha = "123456";
+        String senha = "waap654321";
 
         // Gera o hash da senha
         String hash = encoder.encode(senha);
 
         // Imprime o hash no console
-        System.out.println("Hash para '123456': " + hash);
+        System.out.println("Hash para "+ senha + ": " + hash);
     }
 }

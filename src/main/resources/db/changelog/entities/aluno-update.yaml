@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1746062468912-1
+      author: eriksilva (generated)
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: BIOMETRIA_CADASTRADA
+                  type: BOOLEAN
+            tableName: ALUNO
